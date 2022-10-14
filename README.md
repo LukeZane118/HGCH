@@ -1,2 +1,3 @@
 # HGCC
-Temporary code repository
+Temporary code repository.
+The code is in preparation and will be uploaded soon.
