@@ -1,0 +1,75 @@
+# Model Settings
+model: HGCC
+embedding_size: 64
+n_layers: 3 # 3
+init_mode: pop  # choose in [uni, pop]
+
+# initialization scale, for init_mode is uni(-scale, scale), for pop_init is scale' uni(-scale', scale')  
+# where scale' = scale / (pop - min(pop) + 1)
+scale: 0.1
+
+# spaces used to aggregate. space name is the same as postfix of data file, except for ``geo``. e.g.: gowalla.inter -> inter: [user, item]
+# based on ``geo`` data, geographic neighbors will be generated. so in this case the final space name is ``geon``.
+# spaces: {inter: [user, item], cat: [category, item], asb: [item, item], asv: [item, item]} # space used to context encoding
+# spaces: {inter: [user, item], asb: [item, item], asv: [item, item]} # space used to context encoding
+# spaces: {inter: [user, item], cat: [category, item]} # space used to context encoding
+spaces: {inter: [user, item], net: [user, user], geon: [item, item]} # space used to context encoding
+# spaces: {inter: [user, item], geon: [item, item]} # space used to context encoding
+# spaces: {inter: [user, item]}
+
+# space curvature, digit means it is constant curvature, ``~`` means it is trainable curvature. 
+# the key of ``curvature`` is the same as ``spaces``, and its value can be ``float`` or ``list``.
+# float: set curvature of all layer to be the same value or trainable. 
+# e.g. {inter: 1., net: ~} means set curvature of all layers of space ``inter`` to be constant 1, 
+# and the curvature of all layers of space ``net`` to be trainable.
+# list: set curvature of every layer according to given ``list`` respectively. 
+# the length of ``list`` should be equal to ``n_layers`` plus 1, since the last layer is prediciton layer.
+# e.g. {inter: [1., 1., 1., ~]} means set the curvature of the first to third layers of space ``inter`` to be constant 1, 
+# and the curvature of the prediciton layer to be trainable.
+# curvature: {inter: 1., cat: 1., asb: 1., asv: 1.}
+# curvature: {inter: 1., asb: 1., asv: 1.}
+# curvature: {inter: 1., cat: 1.}
+curvature: {inter: 1., net: 1., geon: 1.}
+# curvature: {inter: 1., geon: 1.}
+# curvature: {inter: 1.}
+
+# auxiliary task
+aux_tasks: []
+
+# aggregation method. it can set aggregation method to encode embedding in every space.
+# the key of ``agg_mode`` is the same as ``spaces``. 
+# if the space aggregation method is not specified, it defaults to ``hyper_agg``.
+# agg_mode: {inter: eucli_agg, net: eucli_agg, geon: eucli_agg} # choose in {eucli_agg, hyper_agg}
+# agg_mode: {inter: eucli_agg, asv: eucli_agg} # choose in {eucli_agg, hyper_agg}
+agg_mode: {inter: hyper_agg} # choose in {eucli_agg, hyper_agg}
+# space_project: False
+
+fusion_method: 'gate&prior' # chooce in [gate, prior, gate&prior]
+# score_project: False
+# fermi_dirac: False
+margin: 0.15 # 0.15
+reg_weight: 0. # 1.e-05
+# reg_c_weight: 1.e-02  # 5.e-02
+
+# Training Settings
+epochs: 300
+train_batch_size: 8192 # 8192
+learner: adam  # choose in ['adam', 'sgd', 'adagrad', 'rmsprop', 'sparse_adam', 'rsgd', 'radam']
+learning_rate: 1.e-04  # adam: 1.e-04
+weight_decay: 1.e-06  # cd: 1.e-04; gowalla: 1.e-06
+weight_decay_gate: 1.e-06
+use_metabalance: False # metabalance is for auxiliary task
+# clip_grad_norm: {max_norm: 0.1}
+# momentum: 0.95
+eval_step: 10
+# require_pow: True
+# neg_sampling: {uniform: 1}
+neg_sampling: {uniform: 1, dynamic: 10}
+
+# warm_up is used to gradually increase the learning rate. the parameters here are the same as the fuction called at runtime.
+# warm_up: {multiplier: 1, total_epoch: 3, after_scheduler: {CosineAnnealingLR: {T_max: 497, eta_min: 2.e-05}}}
+warm_up: {multiplier: 1, total_epoch: 3}
+
+# track training
+track_weight: False # track model weight in tensorboard
+track_gradient: False # track model gradient in tensorboard

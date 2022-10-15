@@ -1,0 +1,15 @@
+dataset: 'amazon-cds' # Range in ['gowalla', 'yelp', 'amazon-books', 'amazon-cds']
+load_col: ~
+unload_col: {}
+# unused_col: {inter: [timestamp, longitude, latitude]}
+additional_feat_suffix: [cat, asb, asv]
+# alias_of_user_id: []
+alias_of_item_id: [cat_item_id, asb_item_id, asv_item_id, also_buy, also_view]
+# additional_feat_suffix: [net, geo, useremb_c1, itememb_c1]
+# alias_of_user_id: [net_user_id, friend_id, uid]
+# alias_of_item_id: [geo_item_id, iid]
+rm_dup_inter: first
+val_interval: {rating: "[4,5]"}
+user_inter_num_interval: '[10,inf)'
+item_inter_num_interval: '[5,inf)'  # '[5,inf)' for amazon-cds, '[10,inf)' for amazon-books
+filter_additional_feat_by_inter: True

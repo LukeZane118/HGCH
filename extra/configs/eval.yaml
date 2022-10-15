@@ -1,0 +1,6 @@
+eval_args: {group_by: user,order: RO, split: {RS: [0.72,0.08,0.2]}, mode: 'full'}
+topk: [5, 10, 20, 50, 100]
+metrics: ['Recall', 'NDCG']
+valid_metric: 'NDCG@10'
+eval_batch_size: 8192000  # 409600, 1638200, books: 8192000
+visual_embs: False

@@ -1,0 +1,17 @@
+dataset: 'gowalla'
+load_col: ~
+unload_col: {}
+unused_col: {inter: [timestamp, longitude, latitude]}
+additional_feat_suffix: [net, geo]
+alias_of_user_id: [net_user_id, friend_id]
+alias_of_item_id: [geo_item_id] 
+# additional_feat_suffix: [net, geo, useremb_c1, itememb_c1]
+# alias_of_user_id: [net_user_id, friend_id, uid]
+# alias_of_item_id: [geo_item_id, iid]
+GEO_FIELD: {LOCATION_ID: geo_item_id, LATITUDE_FIELD: geo_latitude, LONGITUDE_FIELD: geo_longitude}
+rm_dup_inter: first
+val_interval: {longitude: '[-180,180]', latitude: '[-90,90]'} # should delete for yelp
+user_inter_num_interval: '[10,inf)'
+item_inter_num_interval: '[10,inf)'
+filter_additional_feat_by_inter: True
+geo_threshold: 0.2  # Threshold of distance
