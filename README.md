@@ -2,7 +2,7 @@
 
 ## Environment:
 
-The code was developed and tested on the [RecBole](https://github.com/RUCAIBox/RecBole) v1.0.1
+The code was developed and tested on the [RecBole](https://github.com/RUCAIBox/RecBole) v1.0.1.
 <a name="instructions"/>
 
 ## Instructions:
